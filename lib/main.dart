@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Visuales Copy',
+      title: 'Visuales Copy prueba',
       home: Home(),
     );
   }
