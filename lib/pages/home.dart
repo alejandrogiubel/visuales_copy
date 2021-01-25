@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:visuales_copy/models/Movie.dart';
+import 'package:visuales_copy/pages/description.dart';
 import 'package:visuales_copy/provider/the_movie_db_provider.dart';
 
 class Home extends StatelessWidget {
@@ -78,7 +80,7 @@ class Home extends StatelessWidget {
 
   getPeliculasPopulares() {
     return FutureBuilder(
-      future: TheMovieDbProvider.getPopular('es-ES', 1),
+      future: TheMovieDbProvider.getPopularsMovies('es-ES', 1),
       builder: (BuildContext context,AsyncSnapshot<List<Movie>> snapData) {
         if(snapData.hasData) {
           return CarouselSlider(
@@ -99,13 +101,24 @@ class Home extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     // child: Text(movie.name, style: TextStyle(fontSize: 16.0),)
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: FadeInImage(
-                        fit: BoxFit.cover,
-                        image: Image.network(movie.image).image,
-                        placeholder: AssetImage('assets/loading.gif'),
-                      )
+                    child: Hero(
+                      tag: movie.id,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: InkResponse(
+                            onTap: () {
+                              Get.to(Description(movie));
+                            },
+                            child: FadeInImage(
+                              fit: BoxFit.cover,
+                              image: Image.network(movie.image).image,
+                              placeholder: AssetImage('assets/loading.gif'),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -113,7 +126,7 @@ class Home extends StatelessWidget {
             }).toList(),
           );
         } else {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       }
     );
@@ -121,7 +134,7 @@ class Home extends StatelessWidget {
 
   getSeriespopulares() {
     return FutureBuilder(
-      future: TheMovieDbProvider.getSeriesPopulares('es-ES'),
+      future: TheMovieDbProvider.getPopularsSeries('es-ES'),
       builder: (BuildContext context,AsyncSnapshot<List<Movie>> snapData) {
         if(snapData.hasData) {
           return CarouselSlider(
@@ -156,7 +169,7 @@ class Home extends StatelessWidget {
             }).toList(),
           );
         } else {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       }
     );
