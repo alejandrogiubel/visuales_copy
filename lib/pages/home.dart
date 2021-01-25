@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visuales Copy'),
+        title: Text('Visuales Copy probando ci cd'),
         actions: [
           IconButton(
             icon: Icon(Icons.search_rounded),
